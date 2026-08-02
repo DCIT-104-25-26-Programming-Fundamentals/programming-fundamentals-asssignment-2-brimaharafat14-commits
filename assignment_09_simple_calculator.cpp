@@ -66,10 +66,125 @@
 
 // =============================================================================
 // YOUR CODE BELOW — remove the // symbols from the scaffold and fill it in
-// =============================================================================
+// ===================================================================
 
-#include <iostream>
+<iostream>
 #include <iomanip>
 #include <cmath>
+#include <limits>
 using namespace std;
 
+void showMenu() {
+    cout << "============================" << endl;
+    cout << "     SIMPLE CALCULATOR" << endl;
+    cout << "============================" << endl;
+    cout << "1. Addition" << endl;
+    cout << "2. Subtraction" << endl;
+    cout << "3. Multiplication" << endl;
+    cout << "4. Division" << endl;
+    cout << "5. Modulus" << endl;
+    cout << "6. Exponentiation" << endl;
+    cout << "7. Quit" << endl;
+    cout << "Select an operation (1-7): ";
+}
+
+double add(double a, double b) { return a + b; }
+double subtract(double a, double b) { return a - b; }
+double multiply(double a, double b) { return a * b; }
+
+bool divide(double a, double b, double& result) {
+    if (b == 0) return false;
+    result = a / b;
+    return true;
+}
+
+bool modulus(int a, int b, int& result) {
+    if (b == 0) return false;
+    result = a % b;
+    return true;
+}
+
+double power(double base, int exponent) {
+    double result = 1.0;
+    for (int i = 0; i < exponent; i++) result *= base;
+    return result;
+}
+
+void getTwoNumbers(double& a, double& b) {
+    cout << "Enter first number : ";
+    cin >> a;
+    cout << "Enter second number: ";
+    cin >> b;
+}
+
+int main() {
+    int choice;
+
+    do {
+        showMenu();
+        cin >> choice;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Error: Please enter a number between 1 and 7." << endl;
+            continue;
+        }
+
+        cout << endl << fixed << setprecision(2);
+        double a, b, result;
+
+        switch (choice) {
+            case 1:
+                getTwoNumbers(a, b);
+                cout << "Result: " << a << " + " << b << " = " << add(a, b) << endl;
+                break;
+            case 2:
+                getTwoNumbers(a, b);
+                cout << "Result: " << a << " - " << b << " = " << subtract(a, b) << endl;
+                break;
+            case 3:
+                getTwoNumbers(a, b);
+                cout << "Result: " << a << " * " << b << " = " << multiply(a, b) << endl;
+                break;
+            case 4:
+                getTwoNumbers(a, b);
+                if (divide(a, b, result))
+                    cout << "Result: " << a << " / " << b << " = " << result << endl;
+                else
+                    cout << "Error: Cannot divide by zero." << endl;
+                break;
+            case 5: {
+                int ia, ib, iresult;
+                cout << "Enter first number : ";
+                cin >> ia;
+                cout << "Enter second number: ";
+                cin >> ib;
+                if (modulus(ia, ib, iresult))
+                    cout << "Result: " << ia << " % " << ib << " = " << iresult << endl;
+                else
+                    cout << "Error: Cannot perform modulus by zero." << endl;
+                break;
+            }
+            case 6: {
+                double base;
+                int exponent;
+                cout << "Enter base    : ";
+                cin >> base;
+                cout << "Enter exponent: ";
+                cin >> exponent;
+                cout << "Result: " << base << " ^ " << exponent << " = " << power(base, exponent) << endl;
+                break;
+            }
+            case 7:
+                cout << "Goodbye!" << endl;
+                break;
+            default:
+                cout << "Error: Please select a number between 1 and 7." << endl;
+        }
+
+        cout << endl;
+
+    } while (choice != 7);
+
+    return 0;
